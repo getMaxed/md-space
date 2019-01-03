@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,15 @@ const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 
 const app = express();
+
+/*
+|--------------------------------------------------------------------------
+| BODY PARSER MIDDLEWARE
+|--------------------------------------------------------------------------
+*/
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 /*
 |--------------------------------------------------------------------------
