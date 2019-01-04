@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,21 @@ mongoose
     .then(() => console.log('connected'))
     .catch(err => console.log("couldn't connect"));
 
-app.get('/', (req, res) => res.send('hellssso'));
+/*
+|--------------------------------------------------------------------------
+| PASSPORT MIDDLEWARE
+|--------------------------------------------------------------------------
+*/
+
+app.use(passport.initialize());
+
+/*
+|--------------------------------------------------------------------------
+| PASSPORT CONFIG
+|--------------------------------------------------------------------------
+*/
+
+require('./config/passport')(passport);
 
 /*
 |--------------------------------------------------------------------------
