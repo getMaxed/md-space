@@ -8,6 +8,14 @@ const passport = require('passport');
 
 /*
 |--------------------------------------------------------------------------
+| LOAD INPUT VALIDATION
+|--------------------------------------------------------------------------
+*/
+
+const validateRegisterInput = require('../../validation/register');
+
+/*
+|--------------------------------------------------------------------------
 | LOAD USER MODEL
 |--------------------------------------------------------------------------
 */
@@ -23,9 +31,20 @@ const User = require('../../models/User');
 */
 
 router.post('/register', (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+    /*
+    |--------------------------------------------------------------------------
+    | CHECK VALIDATION
+    |--------------------------------------------------------------------------
+    */
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
-            return res.status(400).json({ email: 'Email already exists' });
+            errors.email = 'Email already exists';
+            return res.status(400).json(errors);
         } else {
             const avatar = gravatar.url(req.body.email, {
                 s: '200', // size
